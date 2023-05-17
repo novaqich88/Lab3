@@ -1,0 +1,84 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class Person {
+protected:
+    string name;
+    int age;
+public:
+    Person(const string& name, int age) : name(name), age(age) {}
+    virtual ~Person() {}
+    virtual void printInfo() const {
+        cout << "Name: " << name << ", Age: " << age << endl;
+    }
+};
+
+class Military : public Person {
+protected:
+    int serviceNumber;
+public:
+    Military(const string& name, int age, int serviceNumber) : 
+        Person(name, age), serviceNumber(serviceNumber) {}
+    virtual ~Military() {}
+    virtual void printInfo() const override {
+        Person::printInfo();
+        cout << "Service Number: " << serviceNumber << endl;
+    }
+};
+
+class Officer : public Military {
+protected:
+    string rank;
+public:
+    Officer(const string& name, int age, int serviceNumber, const string& rank) :
+        Military(name, age, serviceNumber), rank(rank) {}
+    virtual ~Officer() {}
+    virtual void printInfo() const override {
+        Military::printInfo();
+        cout << "Rank: " << rank << endl;
+    }
+};
+
+class Soldier : public Military {
+protected:
+    string unit;
+public:
+    Soldier(const string& name, int age, int serviceNumber, const string& unit) :
+        Military(name, age, serviceNumber), unit(unit) {}
+    virtual ~Soldier() {}
+    virtual void printInfo() const override {
+        Military::printInfo();
+        cout << "Unit: " << unit << endl;
+    }
+};
+
+int main() {
+    Person* person = new Person("John", 25);
+    Military* military = new Military("Alice", 30, 12345);
+    Officer* officer = new Officer("Bob", 35, 67890, "Captain");
+    Soldier* soldier = new Soldier("Eve", 20, 11111, "Alpha Company");
+
+    cout << "Person: ";
+    person->printInfo();
+    cout << endl;
+
+    cout << "Military: ";
+    military->printInfo();
+    cout << endl;
+
+    cout << "Officer: ";
+    officer->printInfo();
+    cout << endl;
+
+    cout << "Soldier: ";
+    soldier->printInfo();
+    cout << endl;
+
+    delete person;
+    delete military;
+    delete officer;
+    delete soldier;
+
+    return 0;
+}
